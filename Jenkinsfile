@@ -1,5 +1,9 @@
 pipeline{
   agent any 
+  environment{
+	NEW_VERSION = '1.3.0'
+	SERVER_CREDENTIALS = credentials('server-credentials')
+  }
   stages{
     stage("build"){
 		when{
@@ -9,6 +13,9 @@ pipeline{
 		}
         steps{
             echo 'building the app'
+			echo "building version ${NEW_VERSION}"
+			echo 'building version ${NEW_VERSION}'
+			
           }
     }
     stage("test"){
@@ -24,6 +31,7 @@ pipeline{
     stage("deploy"){
         steps{
             echo 'deploying the app'
+			echo "Deploying with ${SERVER_CREDENTIALS}"
         }
     }
   }
