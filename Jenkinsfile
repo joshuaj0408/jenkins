@@ -4,7 +4,7 @@ pipeline{
     stage("build"){
 		when{
 			expression{
-				branch '*/main'
+				BRANCH_NAME == 'main'
 			}
 		}
         steps{
@@ -14,7 +14,7 @@ pipeline{
     stage("test"){
 		when{
 			expression{
-				branch '*/dev'
+				BRANCH_NAME == 'dev'
 			}
 		}
         steps{
@@ -27,12 +27,15 @@ pipeline{
         }
     }
   }
-  /*post{
+  post{
     always {
-      //
+      echo 'Post Always'
     }
     success{
-      
+      echo 'Post Success'
     }
-  }*/
+	failure{
+	  echo 'Post failure'
+	}
+  }
 }
