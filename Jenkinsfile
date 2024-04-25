@@ -4,7 +4,7 @@ pipeline{
     stage("build"){
 		when{
 			expression{
-				BRANCH_NAME == 'main'
+				branch '*/main'
 			}
 		}
         steps{
@@ -14,7 +14,7 @@ pipeline{
     stage("test"){
 		when{
 			expression{
-				BRANCH_NAME == 'dev'
+				branch '*/dev'
 			}
 		}
         steps{
