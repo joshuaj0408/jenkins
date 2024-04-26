@@ -7,7 +7,7 @@ def testApp(){
 	echo "Testing the application"
 }
 
-def DeployApp(){
+def deployApp(){
 	echo "Deploying the application"
 	echo "Deploying VERSION ${VERSION}"
 }
