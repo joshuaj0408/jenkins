@@ -22,7 +22,7 @@ pipeline{
             echo 'building the app'
 			echo "building version ${NEW_VERSION}"
 			echo 'building version ${NEW_VERSION}'
-			sh "mvn install"
+			bat 'mvn -v' 
           }
     }
 	
