@@ -1,3 +1,4 @@
+def gv
 pipeline{
  
  agent any 
@@ -14,23 +15,30 @@ pipeline{
   parameters{
 	//string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod')
 	choice(name: 'VERSION', choices: ['1.1.0','1.2.0','1.3.0'], description: '')
-	booleanParam(name: 'executeTests', defaultValue: false, description:'')
+	booleanParam(name: 'executeTests', defaultValue: true, description:'')
   }
   
   stages{
-    stage("build"){
+  	stage("init"){
+        	steps{
+		       script{
+			 gv = load "script.groovy"
+			}
+        	}	
+    	}
+	
+	stage("build"){
 		when{
 			expression{
 				BRANCH_NAME == 'main' && params.executeTests
 			}
 		}
-        steps{
-            echo 'building the app'
-			echo "building version ${NEW_VERSION}"
-			echo 'building version ${NEW_VERSION}'
-			bat 'mvn -v'
-          }
-    }
+        	steps{
+           		 script{
+			gv.buildApp()
+			}
+          	}
+    	}
 	
     stage("test"){
 		when{
@@ -39,15 +47,16 @@ pipeline{
 			}
 		}
         steps{
-            echo 'testing the app'
+            gv.testApp()
         }
     }
 	
     stage("deploy"){
         steps{
-            echo 'deploying the app'
-			echo "Deploying with ${SERVER_CREDENTIALS}"
-			echo "Deploying with ${params.VERSION}"
+			script{
+			gv.deployApp()
+			}
+			//echo "Deploying with ${SERVER_CREDENTIALS}"
         }
     }
   }
